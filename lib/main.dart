@@ -1,51 +1,31 @@
 import 'package:flutter/material.dart';
-import 'functions.dart';
+import 'homepage.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(mainPage());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); 
+  // var db = DatabaseConnection();
+  // await db.insertContact(Functionalities(
+  //   name: 'Gumana ka', 
+  //   phoneNumber: '09675547331',
+  //   emailAddress: 'putangIna@gmail.com'));
+  //   print(await db.getContacts());
+  runApp(MainPage());
 }
 
-class mainPage extends StatelessWidget {
+class MainPage extends StatelessWidget {
 
-  // mainPage() : super();
+  //FrontPage createState() => FrontPage();
+   @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: new FrontPage()
+    );
+  }
+}
 
-  // @override
-  // frontPage createState() => frontPage();
+class FrontPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) => MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: frontPage()
-  );
+  FrontPageState createState() => FrontPageState();
 }
 
-class frontPage extends StatelessWidget {
-  
-  @override
-  Widget build(BuildContext context) => 
-    Scaffold(
-    backgroundColor: Color(0xff101820),
-    appBar: AppBar(
-      centerTitle: true,
-      backgroundColor: Color(0xfff2aa4d),
-      title: Text('Contacts'),
-      foregroundColor: Color(0xff000000),
-      actions: [
-        IconButton(onPressed: () {}, 
-        icon: Icon(Icons.search)),
-        ],
-    ),
-    body: Center(),
-    floatingActionButton: FloatingActionButton(
-      child: Icon(Icons.add),
-      backgroundColor: Color(0xfff2aa4d),
-      foregroundColor: Color(0xff000000),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => AddContact()),
-        );
-      }
-      ),
-  );
-}
