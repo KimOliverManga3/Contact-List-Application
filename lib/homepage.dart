@@ -1,22 +1,22 @@
 import 'package:contact_list/dbHelper.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'addContact.dart';
 import 'functions.dart';
 import 'main.dart';
 
 class FrontPageState extends State<FrontPage> {
 
-  var items = <String>[];
-  //Functionalities test = new Functionalities(phoneNumber: '', name: '', emailAddress: '');
-
-  //final List<String> _searchable = (DatabaseConnection().getContacts().toString());
+  late Future _temp;
 
   @override
   void initState(){
     super.initState();
-    //items = test.getCont();
+    _temp = _tempFunction();
     DatabaseConnection().getContacts2();
   }
+
+  _tempFunction() => DatabaseConnection().getContacts();
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -42,27 +42,30 @@ class FrontPageState extends State<FrontPage> {
             return ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index){
-              return content(snapshot.data![index]);
+                 return content(snapshot.data![index]);
             });
           }
           else{
             return const Center(
               child: Text("No Contact Found.", 
               style: TextStyle(color: Colors.white),),
-            );
+              );
+            }
           }
-        }
-      )
-    ),
+        )
+      ),
     ),
     floatingActionButton: FloatingActionButton(
       child: Icon(Icons.add),
       backgroundColor: Color(0xfff2aa4d),
       foregroundColor: Color(0xff000000),
-      onPressed: () {
-        Navigator.push(context,
+      onPressed: () async {
+        await Navigator.push(context,
           MaterialPageRoute(builder: (context) => AddContact()),
         );
+        setState(() {
+          
+        });
       }
       ),
   );
@@ -80,15 +83,25 @@ class FrontPageState extends State<FrontPage> {
       padding: EdgeInsets.all(3.0),
       child: Row(
         children: <Widget>[
-          CircleAvatar(
-            child: Text('${contacts.name[0]}'),
-            backgroundColor: Color(0xff000000),
-            foregroundColor: Colors.white,
-          ),
-          const Padding(padding: EdgeInsets.all(8.0)),
-          Text(
-            contacts.name,
-            style: TextStyle(fontSize: 18, color: Colors.black),
+          SizedBox(
+            width: 330,
+            child: ListTile(
+              leading: IconButton(onPressed: (){
+
+              }, 
+              icon: Icon(Icons.edit),
+              color: Colors.black,),
+              title: Text(
+                contacts.name,
+                style:TextStyle(fontSize: 18, color: Colors.black),
+                ),
+              subtitle: Text(contacts.phoneNumber + '\n' + contacts.emailAddress),
+              trailing: IconButton(onPressed: () {
+
+              }, 
+              icon: Icon(Icons.delete),
+              color: Colors.red,),
+            ),
           ),
         ],
       ),

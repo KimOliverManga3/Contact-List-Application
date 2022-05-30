@@ -2,10 +2,18 @@ import 'package:contact_list/dbHelper.dart';
 import 'package:contact_list/functions.dart';
 import 'package:flutter/material.dart';
 
-class AddContact extends StatelessWidget {
+class AddContact extends StatefulWidget{
+  
+  @override
+  AddContactState createState() => AddContactState();
+
+}
+
+class AddContactState extends State<AddContact> {
 
   String name = '', phoneNumber = '', emailAddress = '';
   final formKey = GlobalKey<FormState>();
+  bool? tempBool;
 
   String? validateEmail(value){
     emailAddress = value!;
@@ -129,15 +137,23 @@ class AddContact extends StatelessWidget {
                     ),
                     
                     child: const Text('Save'),
-                    onPressed: () {
-                      if(formKey.currentState!.validate()){
+                    onPressed: () async {
+                      var db = await DatabaseConnection().database;
+                      var temp = await db.rawQuery("SELECT phoneNumber FROM contacts WHERE phoneNumber = '$phoneNumber'");
+                      if(temp.length > 0){
+                        const snackBar = SnackBar(content: Text("Phone Number Already Exists"), 
+                        backgroundColor: Colors.red,);
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+                      else if (formKey.currentState!.validate() && temp.length <= 0){
                         final snackBar = SnackBar(content: Text("Contact Added"), backgroundColor: Colors.green,);
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         Functionalities func = Functionalities(name: name, phoneNumber: phoneNumber, emailAddress: emailAddress);
                         DatabaseConnection().insertContact(func);
+                        formKey.currentState?.reset();
                       }
                     }, 
-                    ),
+                  ),
                 ],
               )
             ],
@@ -147,4 +163,5 @@ class AddContact extends StatelessWidget {
     ),
   );
 }
+
 

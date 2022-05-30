@@ -1,3 +1,6 @@
+import 'package:contact_list/addContact.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:developer';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -8,6 +11,11 @@ class DatabaseConnection{
   Database? _database;
 
   Future<Database> get database async => _database ??= await initDatabase();
+
+  bool? taenamo;
+  isValidate(bool bitch) {
+    taenamo = bitch;
+  } 
   
   Future<Database> initDatabase() async{
 
@@ -25,9 +33,9 @@ class DatabaseConnection{
     await db.execute('CREATE TABLE contacts(phoneNumber VARCHAR PRIMARY KEY, name VARCHAR, emailAddress VARCHAR)');
   }
 
-  Future<void> insertContact(Functionalities contact) async{ 
+  void insertContact(Functionalities contact) async{ 
     var db = await database;
-    await db.insert("contacts", contact.toMap());
+    await db.insert("contacts", contact.toMap()); 
   }
 
   Future<List<Functionalities>> getContacts() async {
