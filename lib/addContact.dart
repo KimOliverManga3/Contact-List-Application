@@ -3,9 +3,13 @@ import 'package:contact_list/functions.dart';
 import 'package:flutter/material.dart';
 
 class AddContact extends StatefulWidget{
+
+  //String editName = '', editPhoneNumber = '', editEmail = '';
+
+  //AddContact({required this.editName, required this.editPhoneNumber, required this.editEmail});
   
   @override
-  AddContactState createState() => AddContactState();
+  AddContactState createState() => AddContactState(/*editName: editName, editPhoneNumber: editPhoneNumber, editEmail: editEmail*/);
 
 }
 
@@ -14,6 +18,10 @@ class AddContactState extends State<AddContact> {
   String name = '', phoneNumber = '', emailAddress = '';
   final formKey = GlobalKey<FormState>();
   bool? tempBool;
+
+  //String editName = '', editPhoneNumber = '', editEmail = '';
+
+  //AddContactState({required this.editName, required this.editPhoneNumber, required this.editEmail});
 
   String? validateEmail(value){
     emailAddress = value!;
@@ -119,10 +127,7 @@ class AddContactState extends State<AddContact> {
                     borderRadius: BorderRadius.circular(30.0)
                   )
                 ),
-                validator: validateEmail,
-                
-                
-                
+                validator: validateEmail               
               ),      
               const SizedBox(height: 40,),
               Row(
