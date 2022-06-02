@@ -25,20 +25,6 @@ class FrontPageState extends State<FrontPage> {
     ),
     body: Column(
       children: [
-
-          //  FocusedMenuHolder(
-          //   menuItems: [
-          //     FocusedMenuItem(
-          //       title: Text("Delete", style: TextStyle(color: Colors.white),),
-          //       trailingIcon: Icon(Icons.delete, color: Colors.white,),
-          //       backgroundColor: Colors.red,
-          //       onPressed: (){},
-          //       )
-          //   ],
-          //   blurSize: 40.40,
-          //   openWithTap: false,
-          //   onPressed: (){},
-
           Flexible(
             child: Container(
             padding: EdgeInsets.all(25),
@@ -55,32 +41,30 @@ class FrontPageState extends State<FrontPage> {
                   });
                 }
                 else{
-                    return const Center(
-                    child: Text("No Contact Found.", 
-                    style: TextStyle(color: Colors.white),),
-                    );
+                  return const Center(
+                  child: Text("No Contact Found.", 
+                  style: TextStyle(color: Colors.white),),
+                  );
                 }
-                  
               }
             )
           ),
         ),
       ),
     ],
-    ),
+  ),
     floatingActionButton: FloatingActionButton(
       child: Icon(Icons.add),
       backgroundColor: Color(0xfff2aa4d),
       foregroundColor: Color(0xff000000),
       onPressed: () async {
         await Navigator.push(context,
-          MaterialPageRoute(builder: (context) => AddContact()),
+          MaterialPageRoute(builder: (context) => AddContact(editName: '', editPhoneNumber: '', editEmail: '',)),
         );
         setState(() {});
       }
       ),
   );
-}
 
   Widget content(Functionalities contacts, BuildContext context){
     return FocusedMenuHolder(
@@ -89,9 +73,9 @@ class FrontPageState extends State<FrontPage> {
           title: Text("Delete", style: TextStyle(color: Colors.white),),
           trailingIcon: Icon(Icons.delete, color: Colors.white,),
           backgroundColor: Colors.red,
-          onPressed: (){
-            DatabaseConnection().deleteContact(contacts.phoneNumber);
-
+          onPressed: () async {
+            await DatabaseConnection().deleteContact(contacts.phoneNumber);
+            setState(() {});
           },
         )
       ],
@@ -121,10 +105,10 @@ class FrontPageState extends State<FrontPage> {
                     onPressed: () async{
                     await Navigator.push(context,
                       MaterialPageRoute(builder: (context) => AddContact(
-                        
+                        editName: contacts.name, editPhoneNumber: contacts.phoneNumber, editEmail: contacts.emailAddress
                         )),
                     );
-                    setState() {}
+                    setState(() {});
                   }, 
                   icon: Icon(Icons.edit, size: 20,),
                   color: Colors.black,),
@@ -137,5 +121,8 @@ class FrontPageState extends State<FrontPage> {
   );
     
   }
+}
+
+  
 
   

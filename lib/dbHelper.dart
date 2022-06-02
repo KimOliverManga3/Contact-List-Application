@@ -30,7 +30,12 @@ class DatabaseConnection{
     await db.insert("contacts", contact.toMap()); 
   }
 
-  void deleteContact(String phoneNumber) async{
+  Future<void> updateContact(Functionalities newContact, String oldPhoneNumber) async{
+    var db = await database;
+    await db.update('contacts', newContact.toMap(), where: 'phoneNumber = ?', whereArgs: [oldPhoneNumber]);
+  }
+
+  Future<void> deleteContact(String phoneNumber) async{
     var db = await database;
     await db.delete('contacts', where: 'phoneNumber = ?', whereArgs: [phoneNumber]);
   }
@@ -53,11 +58,6 @@ class DatabaseConnection{
     final db = await database;
     final  maps = await db.query('contacts');
     inspect(maps);
-  }
-
-  Future close() async{
-    var db = await database;
-    db.close();
   }
 
 }

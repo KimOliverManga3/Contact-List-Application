@@ -3,12 +3,6 @@ import 'homepage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); 
-  // var db = DatabaseConnection();
-  // await db.insertContact(Functionalities(
-  //   name: 'Gumana ka', 
-  //   phoneNumber: '09675547331',
-  //   emailAddress: 'putangIna@gmail.com'));
-  //   print(await db.getContacts());
   runApp(MainPage());
 }
 
